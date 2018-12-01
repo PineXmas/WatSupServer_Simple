@@ -9,34 +9,31 @@ public class Main {
 	static Random randomizer = new Random(System.currentTimeMillis());
 	
 	public static void main(String[] caiJCungDc) {
-		System.out.println("Hello Ann");
+		int port = randomizer.nextInt(50000) + 10000;
 		
-		if (caiJCungDc.length <= 1) {
-			System.out.println("Not enough args to start server");
-			return;
-		}
-		
-		int port = -1;
 		
 		try {
-			port = new Integer(caiJCungDc[1]);
+			if (caiJCungDc.length > 0) {
+				port = new Integer(caiJCungDc[0]);
+			}
 		} catch (NumberFormatException e) {
 			port = randomizer.nextInt(50000) + 10000;
-			System.out.println("Error. Use random port: " + port);
 		}
+		System.out.println("Use port: " + port);
+		
 		ServerSocket serverSocket = null;
 		Socket clientSocket = null;
 		try {
 			serverSocket= new ServerSocket(port);
 			
-			System.out.println("This server will only wait for one connection --> output the connected client's address --> send back \"Hello <client-address>\" --> quit!");
+			System.out.println("This server will only wait for one connection --> output the connected client's address --> send back \"Hello@Pine <client-address>\" --> quit!");
 			clientSocket = serverSocket.accept();
 			
 			String clientAddress = clientSocket.getInetAddress().getHostAddress() + ":" + clientSocket.getPort();
 			System.out.println("Connected to " + clientAddress);
 			
-			System.out.println("Send back \"Hello " + clientAddress + "\"...");
-			String msg = "Hello " + clientAddress + "\n";
+			System.out.println("Send back \"Hello@Pine " + clientAddress + "\"...");
+			String msg = "Hello@Pine " + clientAddress + "\n";
 			clientSocket.getOutputStream().write(msg.getBytes());
 			
 			clientSocket.close();
